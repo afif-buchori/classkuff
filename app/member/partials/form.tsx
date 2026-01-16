@@ -17,6 +17,7 @@ interface FormMemberProps {
 }
 
 export default function FormMember({ isOpen, listMember, dataTitles, dataEdit, onSave, onClose }: FormMemberProps) {
+    const usedTitles = new Set(listMember.map((m) => m.title));
     const [form, setForm] = useState<IUserForm>({ nis: "", name: "", gender: "", title: "Anggota" });
     const [error, setError] = useState<string | null>(null);
 
@@ -74,11 +75,16 @@ export default function FormMember({ isOpen, listMember, dataTitles, dataEdit, o
 
                         <SelectContent>
                             <SelectItem value="Anggota">Anggota</SelectItem>
-                            {dataTitles.map((ttl) => (
-                                <SelectItem key={ttl.id} value={ttl.title}>
-                                    {ttl.title}
-                                </SelectItem>
-                            ))}
+                            {dataTitles
+                                .filter((ttl) => {
+                                    if (usedTitles.has(ttl.title) && form.title !== ttl.title) return false;
+                                    return true;
+                                })
+                                .map((ttl) => (
+                                    <SelectItem key={ttl.id} value={ttl.title}>
+                                        {ttl.title}
+                                    </SelectItem>
+                                ))}
                         </SelectContent>
                     </Select>
                 </div>

@@ -2,27 +2,8 @@ import HeaderHero from "@/components/header";
 import NavMenu from "@/components/nav-menu";
 import { IDataClassInfo, IUserForm } from "@/types";
 
-interface IUser {
-    name: string;
-    title: string;
-}
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 export default async function Home() {
-    const classOrganization: IUser[] = [
-        {
-            name: "-",
-            title: "Wali Kelas",
-        },
-        {
-            name: "-",
-            title: "Ketua Kelas",
-        },
-        {
-            name: "-",
-            title: "Wakil Ketua Kelas",
-        },
-    ];
-
     const resDataClass = await fetch(baseUrl + "/api/class-info", {
         cache: "no-store",
     });
@@ -53,10 +34,10 @@ export default async function Home() {
                     return (
                         <div key={idx} className="flex flex-col items-center">
                             <div className="w-20 h-20 rounded-full flex overflow-hidden bg-secondary">
-                                <p className="m-auto text-2xl font-black opacity-50">{getInitials(userInOrg?.name ?? "")}</p>
+                                <p className="m-auto text-2xl font-black opacity-50">{getInitials(userInOrg?.name ?? "-")}</p>
                             </div>
-                            <p className="mt-2 font-medium">{userInOrg?.name}</p>
-                            <p className="text-sm italic opacity-70">{userInOrg?.title}</p>
+                            <p className="mt-2 font-medium">{userInOrg?.name ?? "-"}</p>
+                            <p className="text-sm italic opacity-70">{userInOrg?.title ?? item.title}</p>
                         </div>
                     );
                 })}

@@ -37,6 +37,7 @@ export default function Organization({ classInfo }: OrganizationProps) {
                 <div className="flex justify-end">
                     {isEdit ? (
                         <Button
+                            type="button"
                             variant={"destructive"}
                             disabled={isLoading}
                             onClick={() => {
@@ -51,7 +52,7 @@ export default function Organization({ classInfo }: OrganizationProps) {
                             Cancel
                         </Button>
                     ) : (
-                        <Button variant={"success"} onClick={() => setEdit(true)}>
+                        <Button type="button" variant={"success"} onClick={() => setEdit(true)}>
                             <Icon icon="PencilLine" strokeWidth={2} />
                             Edit
                         </Button>
@@ -73,6 +74,7 @@ export default function Organization({ classInfo }: OrganizationProps) {
                             <Label>Nama jabatan - {idx + 1}</Label>
                             {isEdit && (
                                 <button
+                                    type="button"
                                     disabled={isLoading}
                                     onClick={() => setForm((prev) => ({ ...prev, titles: prev.titles.filter((t) => t.id != item.id) }))}
                                     className="text-destructive"

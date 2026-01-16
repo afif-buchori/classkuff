@@ -3,7 +3,6 @@ import BackButton from "@/components/back-button";
 import { Button } from "@/components/ui/button";
 import ConfirmDialog, { ConfirmDialogHandles } from "@/components/ui/confirm-dialog";
 import { Icon } from "@/components/ui/icon";
-import Modal from "@/components/ui/modal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/libs/utils";
 import { IUserCash, IUserForm } from "@/types";
@@ -12,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import ModalPayCash from "./modal-pay-cash";
 
-const initialMonth = "Januari 2025";
+const initialMonth = "Januari 2026";
 const MONTHS_ID = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
 function getDefaultMonth(months: string[]): string {
@@ -25,7 +24,7 @@ function getDefaultMonth(months: string[]): string {
     return months[months.length - 1] ?? "";
 }
 
-export default function CashTable({ listMember }: { listMember: IUserForm[] }) {
+export default function CashTable({ listMember, isAdmin }: { listMember: IUserForm[]; isAdmin: boolean }) {
     const [nextMonth, setNextMonth] = useState<string>(initialMonth);
     const [isAddingMonth, setIsAddingMonth] = useState<boolean>(false);
     const [listMonth, setListMonth] = useState<string[]>([]);
@@ -66,14 +65,18 @@ export default function CashTable({ listMember }: { listMember: IUserForm[] }) {
     return (
         <>
             <BackButton>
-                <Button variant={"secondary"} onClick={() => setOpenPay(true)} disabled={isAddingMonth} className="ml-auto mr-4">
-                    Bayar <Icon icon="HandCoins" />
-                </Button>
+                {isAdmin && (
+                    <Button variant={"secondary"} onClick={() => setOpenPay(true)} disabled={isAddingMonth} className="ml-auto mr-4">
+                        Bayar <Icon icon="HandCoins" />
+                    </Button>
+                )}
             </BackButton>
             <div className="px-4 mb-4 flex gap-2">
-                <Button onClick={() => confirmNewMonthRef.current?.open()} loading={isAddingMonth}>
-                    Tambah Bulan
-                </Button>
+                {isAdmin && (
+                    <Button onClick={() => confirmNewMonthRef.current?.open()} loading={isAddingMonth}>
+                        Tambah Bulan
+                    </Button>
+                )}
                 {listMonth.length > 0 && (
                     <Select value={monthSelected} onValueChange={(val) => setMonthSelected(val)}>
                         <SelectTrigger>

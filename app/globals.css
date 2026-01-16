@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/* Mode Dark */
+@media (prefers-color-scheme: light) {
+    :root {
+        /* --foreground: #0a0a0a; */
+        --background: #f5efff;
+        --foreground: #624e88;
+        --primary: #cdc1ff;
+        --secondary: #ffccea;
+        --destructive: #b3261e; /* merah tua – jelas untuk error */
+        --success: #1e7f4f; /* hijau tua – nyaman untuk text */
+        --info: #3b5bcc; /* biru keunguan – selaras primary */
+        --destructive-foreground: #f5efff;
+        --success-foreground: #f5efff;
+        --info-foreground: #f5efff;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #f5efff;
+        --foreground: #624e88;
+        --primary: #cdc1ff;
+        --secondary: #ffccea;
+        --destructive: #b3261e; /* merah tua – jelas untuk error */
+        --success: #1e7f4f; /* hijau tua – nyaman untuk text */
+        --info: #3b5bcc; /* biru keunguan – selaras primary */
+        --destructive-foreground: #f5efff;
+        --success-foreground: #f5efff;
+        --info-foreground: #f5efff;
+    }
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
+    --color-destructive: var(--destructive);
+    --color-success: var(--success);
+    --color-info: var(--info);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-success-foreground: var(--success-foreground);
+    --color-info-foreground: var(--info-foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input,
+textarea {
+    font-size: 16px !important; /* mencegah zoom */
+}

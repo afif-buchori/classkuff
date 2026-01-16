@@ -6,6 +6,7 @@ import GenerateGroup from "./generate-group";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useState } from "react";
+import ManualGroup from "./manual-group";
 
 interface DutyClientPageprops {
     dataMember: IUserForm[];
@@ -14,18 +15,21 @@ interface DutyClientPageprops {
 }
 export default function DutyClientPage({ dataMember, dataDutyGroup, isAdmin = false }: DutyClientPageprops) {
     const [isCreate, setIsCreate] = useState<boolean>(false);
+    const [createType, setCreateType] = useState<"M" | "R" | "N">("N"); // Manual | Random | None
 
     return (
         <>
             <BackButton className="pr-4">
-                {isCreate && (
-                    <Button variant={"destructive"} onClick={() => setIsCreate(false)} className="ml-auto">
+                {createType !== "N" && (
+                    <Button variant={"destructive"} onClick={() => setCreateType("N")} className="ml-auto">
                         <Icon icon="X" /> Batal
                     </Button>
                 )}
             </BackButton>
-            {isCreate ? (
-                <GenerateGroup listMember={dataMember} onClose={() => setIsCreate(false)} />
+            {createType === "R" ? (
+                <GenerateGroup listMember={dataMember} onClose={() => setCreateType("N")} />
+            ) : createType === "M" ? (
+                <ManualGroup listMember={dataMember} onClose={() => setCreateType("N")} />
             ) : (
                 <>
                     <div className="flex flex-col gap-4 px-4 mb-6">
@@ -41,9 +45,12 @@ export default function DutyClientPage({ dataMember, dataDutyGroup, isAdmin = fa
                         ))}
                     </div>
                     {isAdmin && (
-                        <div className="flex justify-center">
-                            <Button variant={"success"} onClick={() => setIsCreate(true)}>
-                                Buat Jadwal
+                        <div className="flex justify-center gap-4">
+                            <Button variant={"success"} onClick={() => setCreateType("R")}>
+                                Buat Random
+                            </Button>
+                            <Button variant={"success"} onClick={() => setCreateType("M")}>
+                                Buat Manual
                             </Button>
                         </div>
                     )}

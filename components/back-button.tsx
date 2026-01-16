@@ -12,7 +12,7 @@ export default function BackButton({ routeBack, className = "", children }: { ro
         <div className={cn("flex items-center gap-4 mb-2", className)}>
             <Button variant={"ghost"} onClick={() => router.push(routeBack ?? "/")} className="opacity-70">
                 <Icon icon="ChevronLeft" />
-                Back
+                Back Home
             </Button>
             {children}
         </div>

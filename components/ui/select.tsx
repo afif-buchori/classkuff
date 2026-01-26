@@ -15,7 +15,7 @@ export const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrim
             className={cn(
                 "flex h-9 w-full items-center justify-between rounded-md border bg-background px-3 text-sm",
                 "focus:outline-none focus:ring-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50",
-                className
+                className,
             )}
             {...props}
         >
@@ -24,7 +24,7 @@ export const SelectTrigger = React.forwardRef<React.ElementRef<typeof SelectPrim
                 <ChevronDown className="h-4 w-4 opacity-50" />
             </SelectPrimitive.Icon>
         </SelectPrimitive.Trigger>
-    )
+    ),
 );
 SelectTrigger.displayName = "SelectTrigger";
 
@@ -37,10 +37,10 @@ export const SelectContent = React.forwardRef<React.ElementRef<typeof SelectPrim
                 className={cn("relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-background shadow-md", className)}
                 {...props}
             >
-                <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
+                <SelectPrimitive.Viewport className="p-1 max-h-80 overflow-y-auto">{children}</SelectPrimitive.Viewport>
             </SelectPrimitive.Content>
         </SelectPrimitive.Portal>
-    )
+    ),
 );
 SelectContent.displayName = "SelectContent";
 
@@ -51,7 +51,7 @@ export const SelectItem = React.forwardRef<React.ElementRef<typeof SelectPrimiti
             className={cn(
                 "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none",
                 "focus:bg-primary/20 data-[state=checked]:font-semibold",
-                className
+                className,
             )}
             {...props}
         >
@@ -60,6 +60,6 @@ export const SelectItem = React.forwardRef<React.ElementRef<typeof SelectPrimiti
                 <Check className="h-4 w-4" />
             </SelectPrimitive.ItemIndicator>
         </SelectPrimitive.Item>
-    )
+    ),
 );
 SelectItem.displayName = "SelectItem";

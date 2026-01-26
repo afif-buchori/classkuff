@@ -13,7 +13,7 @@ export default function NavMenu() {
     }, [opacity]);
 
     return (
-        <div className="w-4/5 mx-auto my-5 border-2 border-primary rounded-2xl p-4 pt-6 flex justify-evenly gap-4 text-center bg-white shadow-lg relative">
+        <div className="w-4/5 mx-auto my-5 border-2 border-primary rounded-2xl p-4 pt-6 grid grid-cols-4 text-center bg-white shadow-lg relative">
             <span
                 onClick={() => setOpacity((prev) => Math.max(0, +(prev - 0.1).toFixed(1)))}
                 style={{ color: `rgba(0, 0, 0, ${opacity})` }}
@@ -21,10 +21,10 @@ export default function NavMenu() {
             >
                 MENU
             </span>
-            <Link href={"/member"} className="flex flex-col items-center">
+            {/* <Link href={"/member"} className="flex flex-col items-center">
                 <Icon icon="AlignVerticalJustifyCenter" strokeWidth={2.5} className="w-5 h-5" />
                 <p className="mt-2 text-[10px] leading-3 font-medium">Sruktur Organisasi</p>
-            </Link>
+            </Link> */}
             <Link href={"/member"} className="flex flex-col items-center">
                 <Icon icon="ListOrdered" strokeWidth={2.5} className="w-5 h-5" />
                 <p className="mt-2 text-[10px] leading-3 font-medium">Data Anggota</p>
@@ -36,6 +36,10 @@ export default function NavMenu() {
             <Link href={"/cash"} className="flex flex-col items-center">
                 <Icon icon="HandCoins" strokeWidth={2.5} className="w-5 h-5" />
                 <p className="mt-2 text-[10px] leading-3 font-medium">Uang Kas Kelas</p>
+            </Link>
+            <Link href={"/cash-flow"} className="flex flex-col items-center">
+                <Icon icon="Receipt" strokeWidth={2.5} className="w-5 h-5" />
+                <p className="mt-2 text-[10px] leading-3 font-medium">Catatan Keuangan</p>
             </Link>
         </div>
     );

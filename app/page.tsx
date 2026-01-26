@@ -36,8 +36,8 @@ export default async function Home() {
                             <div className="w-20 h-20 rounded-full flex overflow-hidden bg-secondary">
                                 <p className="m-auto text-2xl font-black opacity-50">{getInitials(userInOrg?.name ?? "-")}</p>
                             </div>
-                            <p className="mt-2 font-medium">{userInOrg?.name ?? "-"}</p>
-                            <p className="text-sm italic opacity-70">{userInOrg?.title ?? item.title}</p>
+                            <p className="mt-2 font-medium text-center">{userInOrg?.name ?? "-"}</p>
+                            <p className="text-sm text-center italic opacity-70">{userInOrg?.title ?? item.title}</p>
                         </div>
                     );
                 })}

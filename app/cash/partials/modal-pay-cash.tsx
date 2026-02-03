@@ -30,6 +30,20 @@ export default function ModalPayCash({ isOpen, onClose, monthSelected, listMembe
         return () => clearTimeout(wait);
     }, [isOpen]);
 
+    function getTotalPaid(data: IUserCash[]): number {
+        let total = 0;
+
+        data.forEach((user) => {
+            user.cashInfo.forEach((date: string) => {
+                if (date && date.trim() !== "") {
+                    total++;
+                }
+            });
+        });
+
+        return total;
+    }
+
     return (
         <Modal
             open={isOpen}
@@ -101,7 +115,7 @@ export default function ModalPayCash({ isOpen, onClose, monthSelected, listMembe
                             ? tableCashDues.map((t) =>
                                   t.idUser === idPaySelected
                                       ? { ...t, cashInfo: payments } // overwrite
-                                      : t
+                                      : t,
                               )
                             : [
                                   ...tableCashDues,
@@ -116,7 +130,7 @@ export default function ModalPayCash({ isOpen, onClose, monthSelected, listMembe
                             const res = await fetch("/api/cash-dues", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ fileName: monthSelected, data: newData }),
+                                body: JSON.stringify({ fileName: monthSelected, data: newData, total: getTotalPaid(newData) ?? 0 }),
                             });
 
                             const result = await res.json();

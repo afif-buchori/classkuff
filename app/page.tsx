@@ -32,7 +32,7 @@ export default async function Home() {
                 {dataClassJson.titles.map((item, idx) => {
                     const userInOrg = dataMember.find((u) => u.title === item.title);
                     return (
-                        <div key={idx} className="flex flex-col items-center">
+                        <div key={idx} className="flex flex-col items-center capitalize">
                             <div className="w-20 h-20 rounded-full flex overflow-hidden bg-secondary">
                                 <p className="m-auto text-2xl font-black opacity-50">{getInitials(userInOrg?.name ?? "-")}</p>
                             </div>

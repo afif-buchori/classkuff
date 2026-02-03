@@ -11,14 +11,18 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const filePath = `${body.fileName}.json`;
+        const { fileName, data, total } = body;
+
+        const filePath = `${fileName}.json`;
 
         const headers = {
             Authorization: `token ${GITHUB_TOKEN}`,
             Accept: "application/vnd.github+json",
         };
 
-        // 1️⃣ Get old file
+        // ===============================
+        // 1️⃣ UPDATE FILE BULANAN
+        // ===============================
         const getRes = await fetch(BASE_URL + filePath, {
             headers,
             cache: "no-store",
@@ -32,17 +36,16 @@ export async function POST(req: Request) {
 
         const fileContent = {
             updateAt: new Date().toISOString(),
-            data: body.data,
+            data,
         };
 
         const content = Buffer.from(JSON.stringify(fileContent, null, 2)).toString("base64");
 
-        // 2️⃣ Update file
         const putRes = await fetch(BASE_URL + filePath, {
             method: "PUT",
             headers,
             body: JSON.stringify({
-                message: "Update Data Cash Dues",
+                message: `Update Data Cash Dues ${fileName}`,
                 content,
                 sha: file.sha,
             }),
@@ -51,6 +54,61 @@ export async function POST(req: Request) {
         if (!putRes.ok) {
             return NextResponse.json({ error: "Failed Update Data Cash Dues" }, { status: 500 });
         }
+
+        // ===============================
+        // 2️⃣ UPDATE index.json (SAFE MODE)
+        // ===============================
+        const indexPath = "index.json";
+        let indexSha: string | undefined;
+
+        const getIndexRes = await fetch(BASE_URL + indexPath, { headers });
+
+        if (!getIndexRes.ok) {
+            return NextResponse.json({ error: "index.json not found" }, { status: 500 });
+        }
+
+        const indexFile = await getIndexRes.json();
+        indexSha = indexFile.sha;
+
+        const indexData = JSON.parse(Buffer.from(indexFile.content, "base64").toString("utf-8"));
+
+        // VALIDASI fileName harus ada di files
+        if (!indexData.files.includes(fileName)) {
+            return NextResponse.json({ error: `Month ${fileName} not registered in index files` }, { status: 400 });
+        }
+
+        // CASE 1: totalPaid kosong → TAMBAHKAN
+        if (indexData.totalPaid.length === 0) {
+            indexData.totalPaid.push({
+                month: fileName,
+                total,
+            });
+        } else {
+            // CASE 2: cari month
+            const target = indexData.totalPaid.find((item: any) => item.month === fileName);
+
+            if (target) {
+                // UPDATE
+                target.total = total;
+            } else {
+                // CASE 3: ERROR (tidak auto create)
+                return NextResponse.json({ error: `Month ${fileName} not found in totalPaid` }, { status: 400 });
+            }
+        }
+
+        indexData.updatedAt = new Date().toISOString();
+
+        const indexContent = Buffer.from(JSON.stringify(indexData, null, 2)).toString("base64");
+
+        await fetch(BASE_URL + indexPath, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify({
+                message: `Update index total ${fileName}`,
+                content: indexContent,
+                sha: indexSha,
+            }),
+        });
 
         return NextResponse.json({ success: true });
     } catch (error) {

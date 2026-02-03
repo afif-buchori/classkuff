@@ -32,7 +32,7 @@ export default function DutyClientPage({ dataMember, dataDutyGroup, isAdmin = fa
                 <ManualGroup listMember={dataMember} onClose={() => setCreateType("N")} />
             ) : (
                 <>
-                    <div className="flex flex-col gap-4 px-4 mb-6">
+                    <div className="flex flex-col gap-4 px-4 mb-6 capitalize">
                         {dataDutyGroup.map((grp) => (
                             <div key={grp.day} className="">
                                 <p className="text-sm font-semibold border-b border-t border-secondary opacity-70 px-1 mb-1">{grp.day}</p>

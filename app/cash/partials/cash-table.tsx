@@ -33,7 +33,7 @@ export default function CashTable({ listMember, isAdmin }: { listMember: IUserFo
         listMember.map((m) => ({
             idUser: m.nis,
             cashInfo: [],
-        }))
+        })),
     );
 
     const fetchListMonth = async () => {
@@ -51,7 +51,7 @@ export default function CashTable({ listMember, isAdmin }: { listMember: IUserFo
         const res = await fetch(`/api/cash-dues/month/${monthSelected}?t=${Date.now()}`, { cache: "no-store" });
         const data = await res.json();
         setTableCash(
-            listMember.map((m) => ({ idUser: m.nis, cashInfo: (data.data as IUserCash[]).find((du) => du.idUser === m.nis)?.cashInfo ?? ["", "", "", ""] }))
+            listMember.map((m) => ({ idUser: m.nis, cashInfo: (data.data as IUserCash[]).find((du) => du.idUser === m.nis)?.cashInfo ?? ["", "", "", ""] })),
         );
     };
     useEffect(() => {
@@ -110,7 +110,7 @@ export default function CashTable({ listMember, isAdmin }: { listMember: IUserFo
                             <div key={idx} className="border-t border-secondary p-2 flex items-center gap-2">
                                 <div className="flex-1 flex flex-col">
                                     <p className="text-xs opacity-50">{dataUser?.nis}</p>
-                                    <p className="line-clamp-1">{dataUser?.name}</p>
+                                    <p className="line-clamp-1 capitalize">{dataUser?.name}</p>
                                 </div>
                                 <div className="flex gap-1">
                                     {item.cashInfo.map((p, ix) => {

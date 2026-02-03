@@ -23,7 +23,7 @@ export default function MemberPageClient({ dataTitles, listMember, isAdmin }: { 
             {!isOpenForm ? (
                 <div className="flex flex-col">
                     {dataMember.map((item, idx) => (
-                        <div key={idx} className="border-t flex flex-col px-4 py-1 relative">
+                        <div key={idx} className="border-t flex flex-col px-4 py-1 relative capitalize">
                             <p>
                                 <span className="italic opacity-50 font-medium">{item.gender} </span>
                                 {item.nis}
@@ -60,7 +60,7 @@ export default function MemberPageClient({ dataTitles, listMember, isAdmin }: { 
                     dataEdit={dataMember.find((d) => d.nis === idSelected) ?? null}
                     onSave={(data) => {
                         setDataMember((prev) =>
-                            prev.some((item) => item.nis === data.nis) ? prev.map((item) => (item.nis === data.nis ? data : item)) : [...prev, data]
+                            prev.some((item) => item.nis === data.nis) ? prev.map((item) => (item.nis === data.nis ? data : item)) : [...prev, data],
                         );
                         toggleOpenForm();
                         setNew(true);

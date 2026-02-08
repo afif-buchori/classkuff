@@ -39,9 +39,9 @@ export default function CashTable({ listMember, isAdmin }: { listMember: IUserFo
     const fetchListMonth = async () => {
         const res = await fetch("/api/cash-dues/month", { cache: "no-store" });
         const data = await res.json();
-        setListMonth(data.months);
-        setMonthSelected(getDefaultMonth(data.months));
-        if (data.months.length > 0) setNextMonth(getNextMonth(data.months[data.months.length - 1]));
+        setListMonth(data.files);
+        setMonthSelected(getDefaultMonth(data.files));
+        if (data.files.length > 0) setNextMonth(getNextMonth(data.files[data.files.length - 1]));
     };
     useEffect(() => {
         fetchListMonth();
@@ -186,11 +186,20 @@ export default function CashTable({ listMember, isAdmin }: { listMember: IUserFo
 }
 
 function getNextMonth(value: string): string {
-    const [monthName, yearStr] = value.split("-");
-    const year = Number(yearStr);
+    // Ambil bulan & tahun pakai regex
+    const match = value.match(/([A-Za-z]+)\s*-?\s*(\d{4})/);
+
+    if (!match) {
+        throw new Error("Format bulan tidak valid");
+    }
+
+    const monthName = match[1].trim();
+    const year = Number(match[2]);
 
     const monthIndex = MONTHS_ID.indexOf(monthName);
-    if (monthIndex === -1) throw new Error("Format bulan tidak valid");
+    if (monthIndex === -1) {
+        throw new Error("Format bulan tidak valid");
+    }
 
     let nextMonthIndex = monthIndex + 1;
     let nextYear = year;

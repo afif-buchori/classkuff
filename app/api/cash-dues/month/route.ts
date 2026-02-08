@@ -33,10 +33,7 @@ export async function GET() {
 
         const indexContent = JSON.parse(Buffer.from(data.content, "base64").toString());
 
-        return NextResponse.json({
-            months: indexContent.files, // ["januari-2025.json", ...]
-            updatedAt: indexContent.updatedAt,
-        });
+        return NextResponse.json(indexContent);
     } catch (err: any) {
         return NextResponse.json({ error: err.message }, { status: 500 });
     }

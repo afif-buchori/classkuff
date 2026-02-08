@@ -1,17 +1,16 @@
-import { IUserForm } from "@/types";
 import HeaderHero from "@/components/header";
 import { cookies } from "next/headers";
 import BackButton from "@/components/back-button";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 export default async function CashFlowPage() {
-    const resDataMember = await fetch(baseUrl + "/api/data-member", {
-        cache: "no-store",
-    });
-    const dataMember: IUserForm[] = await resDataMember.json();
+    const res = await fetch(baseUrl + "/api/cash-dues/month", { cache: "no-store" });
+    const data = await res.json();
+    console.log(data);
 
     const cookieStore = await cookies();
     const token = cookieStore.get("token");
+
     return (
         <>
             <HeaderHero description="Catatan Uang Kas Kelas" className="flex-col-reverse" />

@@ -73,7 +73,7 @@ export default function MemberPageClient({ dataTitles, listMember, isAdmin }: { 
             )}
 
             {isAdmin && !isOpenForm && (
-                <div className="flex flex-col gap-4 mt-8 px-4">
+                <div className="flex flex-col gap-4 mt-8 mb-5 px-4">
                     <Button variant={"success"} disabled={isLoading} onClick={toggleOpenForm}>
                         <Icon icon="Plus" /> Tambah Anggota Baru
                     </Button>
